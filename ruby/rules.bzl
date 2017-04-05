@@ -6,8 +6,8 @@ def ruby_proto_repositories(
     omit_cpp_repositories = False,
     lang_deps = DEPS,
     lang_requires = [
-      "protoc_gen_grpc_ruby",
-    ], **kwargs):
+    ],
+    **kwargs):
 
   if not omit_cpp_repositories:
     cpp_proto_repositories()

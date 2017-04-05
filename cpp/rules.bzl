@@ -4,16 +4,9 @@ load("//cpp:deps.bzl", "DEPS")
 def cpp_proto_repositories(
     lang_deps = DEPS,
     lang_requires = [
-      "protobuf_clib",
       "gtest",
-      "com_github_grpc_grpc",
-      "com_github_madler_zlib",
-      "zlib",
-      "nanopb",
       "boringssl",
-      "libssl",
-      "protobuf_compiler",
-      "protoc_gen_grpc_cpp",
+      "protobuf_clib",
     ], **kwargs):
 
   proto_repositories(lang_deps = lang_deps,
@@ -22,11 +15,6 @@ def cpp_proto_repositories(
 
 PB_COMPILE_DEPS = [
     "//external:protobuf_clib",
-]
-
-GRPC_COMPILE_DEPS = PB_COMPILE_DEPS + [
-    "@com_github_grpc_grpc//:grpc++",
-    "@com_github_grpc_grpc//:grpc++_reflection",
 ]
 
 def cpp_proto_compile(langs = [str(Label("//cpp"))], **kwargs):
@@ -47,20 +35,13 @@ def cpp_proto_library(
     pb_plugin = None,
     pb_options = [],
 
-    grpc_plugin = None,
-    grpc_options = [],
-
     proto_compile_args = {},
-    with_grpc = True,
     srcs = [],
     deps = [],
     verbose = 0,
     **kwargs):
 
-  if with_grpc:
-    compile_deps = GRPC_COMPILE_DEPS
-  else:
-    compile_deps = PB_COMPILE_DEPS
+  compile_deps = PB_COMPILE_DEPS
 
   proto_compile_args += {
     "name": name + ".pb",
@@ -70,18 +51,14 @@ def cpp_proto_library(
     "imports": imports,
     "inputs": inputs,
     "pb_options": pb_options,
-    "grpc_options": grpc_options,
     "output_to_workspace": output_to_workspace,
     "verbose": verbose,
-    "with_grpc": with_grpc,
   }
 
   if protoc:
     proto_compile_args["protoc"] = protoc
   if pb_plugin:
     proto_compile_args["pb_plugin"] = pb_plugin
-  if grpc_plugin:
-    proto_compile_args["grpc_plugin"] = grpc_plugin
 
   proto_compile(**proto_compile_args)
 

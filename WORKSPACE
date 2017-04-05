@@ -68,31 +68,11 @@ load("//cpp:rules.bzl", "cpp_proto_repositories")
 
 cpp_proto_repositories()
 
-load("//csharp:rules.bzl", "csharp_proto_repositories")
-
-csharp_proto_repositories()
-
 load("//java:rules.bzl", "java_proto_repositories", "nano_proto_repositories")
 
 java_proto_repositories()
 
 nano_proto_repositories()
-
-load("//go:rules.bzl", "go_proto_repositories")
-
-go_proto_repositories()
-
-load("//gogo:rules.bzl", "gogo_proto_repositories")
-
-gogo_proto_repositories()
-
-load("//grpc_gateway:rules.bzl", "grpc_gateway_proto_repositories")
-
-grpc_gateway_proto_repositories()
-
-load("//node:rules.bzl", "node_proto_repositories")
-
-node_proto_repositories()
 
 load("//objc:rules.bzl", "objc_proto_repositories")
 
@@ -110,20 +90,11 @@ ruby_proto_repositories()
 # This is for testing
 # ================================================================
 
-local_repository(
-    name = "org_pubref_rules_protobuf",
-    path = ".",
-)
-
 GOOGLEAPIS_BUILD_FILE = """
 package(default_visibility = ["//visibility:public"])
 
-load("@io_bazel_rules_go//go:def.bzl", "go_prefix")
-go_prefix("github.com/googleapis/googleapis")
-
 load("@org_pubref_rules_protobuf//cpp:rules.bzl", "cc_proto_library")
 load("@org_pubref_rules_protobuf//java:rules.bzl", "java_proto_library")
-load("@org_pubref_rules_protobuf//go:rules.bzl", "go_proto_library")
 
 cc_proto_library(
     name = "cc_label_proto",
@@ -134,16 +105,6 @@ cc_proto_library(
 )
 java_proto_library(
     name = "java_label_proto",
-    protos = [
-        "google/api/label.proto",
-    ],
-    # Neither seem to be necessary, for either 3 langs
-    #imports = ["../../external/com_github_google_protobuf/src", "."],
-    #inputs = ["@com_github_google_protobuf//:well_known_protos"],
-    verbose = 0,
-)
-go_proto_library(
-    name = "go_label_proto",
     protos = [
         "google/api/label.proto",
     ],

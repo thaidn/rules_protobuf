@@ -28,7 +28,6 @@ load("@org_pubref_rules_protobuf//java:rules.bzl", "java_proto_compile")
 java_proto_compile(
   name = "protos",
   protos = ["message.proto"],
-  with_grpc = True,
 )
 ```
 
@@ -41,8 +40,6 @@ Target //:protos up-to-date:
 ## java\_proto\_library
 
 Pass the set of protobuf source files to the `protos` attribute.
-When depending on a java_proto_library target, it will automatically export
-`@org_pubref_rules_protobuf//java:grpc_compiletime_deps` for you.
 
 ```python
 load("@org_pubref_rules_protobuf//java:rules.bzl", "java_proto_library")
@@ -50,7 +47,6 @@ load("@org_pubref_rules_protobuf//java:rules.bzl", "java_proto_library")
 java_proto_library(
   name = "protolib",
   protos = ["message.proto"],
-  with_grpc = True,
 )
 ```
 
@@ -73,7 +69,6 @@ java_library(
   srcs = ['MyApp.java'],
   deps = [
     ":protolib",
-    "@org_pubref_rules_protobuf//java:grpc_compiletime_deps",
   ]
 )
 ```
@@ -84,7 +79,6 @@ java_binary(
   main_class = "example.MyApp",
   runtime_deps = [
     ":mylib",
-    "@org_pubref_rules_protobuf//java:netty_runtime_deps",
   ]
 )
 ```

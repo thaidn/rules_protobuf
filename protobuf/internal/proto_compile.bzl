@@ -204,22 +204,6 @@ def _build_protobuf_invocation(run, builder):
                            builder)
 
 
-def _build_grpc_invocation(run, builder):
-  """Build a --plugin option if required for grpc service generation
-  Args:
-    run (struct): the compilation run object.
-    builder (dict): the compilation builder data.
-  Built-in language don't need this.
-  """
-  lang = run.lang
-  if not lang.grpc_plugin:
-    return
-  name = lang.grpc_plugin_name or "grpc-" + lang.name
-  _build_plugin_invocation(name,
-                           lang.grpc_plugin,
-                           run.data.execdir,
-                           builder)
-
 
 def _get_mappings(files, label, prefix):
   """For a set of files that belong the the given context label, create a mapping to the given prefix."""
@@ -271,16 +255,6 @@ def _build_importmappings(run, builder):
 
   builder["transitive_mappings"] = mappings
 
-  # protoc-gen-go needs the importmapping in the protobuf options
-  # whereas protoc-gen-grpc-gateway requires them in the grpc_options.
-  if run.lang.pb_plugin_implements_grpc:
-    # Add in the 'plugins=grpc' option to the protoc-gen-go plugin if
-    # the user wants grpc.
-    if run.data.with_grpc:
-      opts.append("plugins=grpc")
-    builder[run.lang.name + "_pb_options"] += opts
-  else:
-    builder[run.lang.name + "_grpc_options"] += opts
 
 def _build_plugin_out(name, outdir, options, builder):
   """Build the --{lang}_out argument for a given plugin."""
@@ -296,16 +270,6 @@ def _build_protobuf_out(run, builder):
   name = lang.pb_plugin_name or lang.name
   outdir = builder.get(lang.name + "_outdir", run.outdir)
   options = builder.get(lang.name + "_pb_options", [])
-
-  _build_plugin_out(name, outdir, options, builder)
-
-
-def _build_grpc_out(run, builder):
-  """Build the --{lang}_out grpc option"""
-  lang = run.lang
-  name = lang.grpc_plugin_name or "grpc-" + lang.name
-  outdir = builder.get(lang.name + "_outdir", run.outdir)
-  options = builder.get(lang.name + "_grpc_options", [])
 
   _build_plugin_out(name, outdir, options, builder)
 
@@ -448,9 +412,7 @@ def _proto_compile_impl(ctx):
     descriptor_set = ctx.outputs.descriptor_set,
     importmap = ctx.attr.importmap,
     pb_options = ctx.attr.pb_options,
-    grpc_options = ctx.attr.grpc_options,
     verbose = ctx.attr.verbose,
-    with_grpc = ctx.attr.with_grpc,
     transitive_units = transitive_units,
     output_to_workspace = ctx.attr.output_to_workspace,
   )
@@ -474,8 +436,6 @@ def _proto_compile_impl(ctx):
     exts = []
     if lang.supports_pb:
       exts += lang.pb_file_extensions
-    if lang.supports_grpc and data.with_grpc:
-      exts += lang.grpc_file_extensions
 
     runs.append(struct(
       ctx = ctx,
@@ -486,10 +446,9 @@ def _proto_compile_impl(ctx):
       output_to_jar = lang.output_to_jar,
     ))
 
-    builder["inputs"] += lang.pb_inputs + lang.grpc_inputs
-    builder["imports"] += lang.pb_imports + lang.grpc_imports
+    builder["inputs"] += lang.pb_inputs
+    builder["imports"] += lang.pb_imports
     builder[lang.name + "_pb_options"] = lang.pb_options + data.pb_options
-    builder[lang.name + "_grpc_options"] = lang.grpc_options + data.grpc_options
 
   _build_descriptor_set(data, builder)
 
@@ -507,9 +466,6 @@ def _proto_compile_impl(ctx):
     if run.lang.supports_pb:
       _build_protobuf_invocation(run, builder)
       _build_protobuf_out(run, builder)
-    if not run.lang.pb_plugin_implements_grpc and (data.with_grpc and run.lang.supports_grpc):
-      _build_grpc_invocation(run, builder)
-      _build_grpc_out(run, builder)
 
 
   # Build final immutable compilation unit for rule and transitive beyond
@@ -570,10 +526,8 @@ proto_compile = rule(
       allow_files = True,
     ),
     "pb_options": attr.string_list(),
-    "grpc_options": attr.string_list(),
     "output_to_workspace": attr.bool(),
     "verbose": attr.int(),
-    "with_grpc": attr.bool(default = True),
   },
   outputs = {
     "descriptor_set": "%{name}.descriptor_set",
