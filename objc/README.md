@@ -30,7 +30,6 @@ load("@org_pubref_rules_protobuf//objc:rules.bzl", "objc_proto_compile")
 objc_proto_compile(
   name = "protos",
   protos = ["message.proto"],
-  with_grpc = True,
 )
 ```
 
@@ -51,7 +50,6 @@ load("@org_pubref_rules_protobuf//objc:rules.bzl", "objc_proto_library")
 objc_proto_library(
   name = "protolib",
   protos = ["message.proto"],
-  with_grpc = False, # not yet implemented
 )
 ```
 

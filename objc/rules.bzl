@@ -6,8 +6,8 @@ def objc_proto_repositories(
     omit_cpp_repositories = False,
     lang_deps = DEPS,
     lang_requires = [
-      "protoc_gen_grpc_objc",
-    ], **kwargs):
+    ],
+    **kwargs):
 
   if not omit_cpp_repositories:
     cpp_proto_repositories()
@@ -41,20 +41,13 @@ def objc_proto_library(
     pb_plugin = None,
     pb_options = [],
 
-    grpc_plugin = None,
-    grpc_options = [],
-
     proto_compile_args = {},
-    with_grpc = True,
     srcs = [],
     deps = [],
     verbose = 0,
     **kwargs):
 
-  if with_grpc:
-    compile_deps = GRPC_COMPILE_DEPS
-  else:
-    compile_deps = PB_COMPILE_DEPS
+  compile_deps = PB_COMPILE_DEPS
 
   proto_compile_args += {
     "name": name + ".pb",
@@ -64,18 +57,14 @@ def objc_proto_library(
     "imports": imports,
     "inputs": inputs,
     "pb_options": pb_options,
-    "grpc_options": grpc_options,
     "output_to_workspace": output_to_workspace,
     "verbose": verbose,
-    "with_grpc": with_grpc,
   }
 
   if protoc:
     proto_compile_args["protoc"] = protoc
   if pb_plugin:
     proto_compile_args["pb_plugin"] = pb_plugin
-  if grpc_plugin:
-    proto_compile_args["grpc_plugin"] = grpc_plugin
 
   proto_compile(**proto_compile_args)
 
