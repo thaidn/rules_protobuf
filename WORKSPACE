@@ -68,11 +68,9 @@ load("//cpp:rules.bzl", "cpp_proto_repositories")
 
 cpp_proto_repositories()
 
-load("//java:rules.bzl", "java_proto_repositories", "nano_proto_repositories")
+load("//java:rules.bzl", "java_proto_repositories")
 
 java_proto_repositories()
-
-nano_proto_repositories()
 
 load("//objc:rules.bzl", "objc_proto_repositories")
 

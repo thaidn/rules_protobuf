@@ -9,27 +9,16 @@ load("//protobuf:rules.bzl",
 def java_proto_repositories(
     lang_deps = DEPS,
     lang_requires = [
-    "com_google_protobuf_protobuf_java",
-    "com_google_protobuf_protobuf_java_util",
-    "com_google_code_gson_gson",
-    "com_google_guava_guava",
-    "junit_junit_4", # TODO: separate test requirements
-    "com_google_code_findbugs_jsr305",
-  ], **kwargs):
+      "com_google_protobuf_protobuf_java",
+      "com_google_protobuf_protobuf_java_util",
+      "com_google_guava_guava",
+      "junit_junit_4", # TODO: separate test requirements
+    ],
+    **kwargs):
 
   proto_repositories(lang_deps = lang_deps,
                      lang_requires = lang_requires,
                      **kwargs)
-
-
-def nano_proto_repositories(
-    lang_requires = [
-      "com_google_protobuf_nano_protobuf_javanano",
-    ], **kwargs):
-  proto_repositories(lang_requires = lang_requires,
-                     lang_deps = DEPS,
-                     **kwargs)
-
 
 def java_proto_compile(langs = [str(Label("//java"))], **kwargs):
   proto_compile(langs = langs, **kwargs)
