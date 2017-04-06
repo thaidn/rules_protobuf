@@ -4,8 +4,6 @@ load("//cpp:deps.bzl", "DEPS")
 def cpp_proto_repositories(
     lang_deps = DEPS,
     lang_requires = [
-      "gtest",
-      "boringssl",
       "protobuf_clib",
     ], **kwargs):
 

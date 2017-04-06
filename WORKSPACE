@@ -94,6 +94,13 @@ maven_jar(
     sha1 = "2973d150c0dc1fefe998f834810d68f278ea58ec",
 )
 
+new_git_repository(
+    name = "gtest",
+    remote = "https://github.com/google/googletest.git",
+    commit = "ed9d1e1ff92ce199de5ca2667a667cd0a368482a",
+    build_file = "//protobuf:build_file/gtest.BUILD",
+)
+
 GOOGLEAPIS_BUILD_FILE = """
 package(default_visibility = ["//visibility:public"])
 
