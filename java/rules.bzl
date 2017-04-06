@@ -10,6 +10,7 @@ def java_proto_repositories(
     lang_deps = DEPS,
     lang_requires = [
       "com_google_protobuf_protobuf_java",
+      "com_google_protobuf_protobuf_java_util",
       "com_google_protobuf_protobuf_javalite",
       "protoc_gen_javalite_linux_x86_64",
       "protoc_gen_javalite__macosx",
