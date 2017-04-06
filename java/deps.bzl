@@ -13,33 +13,29 @@
 #
 
 DEPS = {
-
-    # ######################
-    # Compile Dependencies #
-    # ######################
-
-    "com_google_guava_guava": {
-        "rule": "maven_jar",
-        "artifact": "com.google.guava:guava:jar:19.0",
-        "sha1": "6ce200f6b23222af3d8abb6b6459e6c44f4bb0e9",
-    },
-
+    
+    # See https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.protobuf%22.
     "com_google_protobuf_protobuf_java": {
         "rule": "maven_jar",
-        "artifact": "com.google.protobuf:protobuf-java:jar:3.1.0",
-        "sha1": "e13484d9da178399d32d2d27ee21a77cfb4b7873",
+        "artifact": "com.google.protobuf:protobuf-java:jar:3.2.0",
+        "sha1": "62ccf171a106ff6791507f2d5364c275f9a3131d",
     },
 
-    "com_google_protobuf_protobuf_java_util": {
+    "com_google_protobuf_protobuf_javalite": {
         "rule": "maven_jar",
-        "artifact": "com.google.protobuf:protobuf-java-util:jar:3.1.0",
-        "sha1": "5085a47f398f229ef2f07fb496099461e8f4c56c",
+        "artifact": "com.google.protobuf:protobuf-lite:jar:3.0.1",
+        "sha1": "59b5b9c6e1a3054696d23492f888c1f8b583f5fc",
     },
 
-    "junit_junit_4": {
-        "rule": "maven_jar",
-        "artifact": "junit:junit:jar:4.12",
-        "sha1": "2973d150c0dc1fefe998f834810d68f278ea58ec",
+    "protoc_gen_javalite_linux_x86_64": {
+        "rule": "http_file",
+        "url" : "http://repo1.maven.org/maven2/com/google/protobuf/protoc-gen-javalite/3.0.0/protoc-gen-javalite-3.0.0-linux-x86_64.exe",
+        "sha256": "83eb6ee8391cbd26ebf48f6636c089e530fd3fea454dc66e5a7e36a648795c7b",
     },
 
+    "protoc_gen_javalite__macosx": {
+        "rule": "http_file",
+        "url" : "http://repo1.maven.org/maven2/com/google/protobuf/protoc-gen-javalite/3.0.0/protoc-gen-javalite-3.0.0-osx-x86_64.exe",
+        "sha256": "fe6f2ba6c6550f20cfa4d07e481a19ce108981009fdd7e6819fed9caa70af074",
+    },
 }

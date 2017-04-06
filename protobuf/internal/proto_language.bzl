@@ -2,8 +2,6 @@ def _proto_language_impl(ctx):
     prefix = None
     if hasattr(ctx.attr.prefix, "go_prefix"):
         prefix = ctx.attr.prefix.go_prefix
-    #print("pb_compile_deps %s" % ctx.attr.pb_compile_deps)
-    #print("pb_compile_deps files %s" % ctx.files.pb_compile_deps)
     return struct(
         proto_language = struct(
             name = ctx.label.name,

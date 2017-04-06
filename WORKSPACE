@@ -88,6 +88,12 @@ ruby_proto_repositories()
 # This is for testing
 # ================================================================
 
+maven_jar(
+    name = "junit_junit_4",
+    artifact = "junit:junit:jar:4.12",
+    sha1 = "2973d150c0dc1fefe998f834810d68f278ea58ec",
+)
+
 GOOGLEAPIS_BUILD_FILE = """
 package(default_visibility = ["//visibility:public"])
 
