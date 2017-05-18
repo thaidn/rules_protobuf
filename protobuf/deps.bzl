@@ -5,8 +5,7 @@ DEPS = {
     "com_github_google_protobuf": {
         "rule": "git_repository",
         "remote": "https://github.com/google/protobuf.git",
-        "commit": "52ab3b07ac9a6889ed0ac9bf21afd8dab8ef0014", # Oct 4, 2016
-        #"branch": "v3.1.x",
+        "commit": "b4b0e304be5a68de3d0ee1af9b286f958750f5e4",
     },
 
     # This binds the cc_binary "protoc" into
